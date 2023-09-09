@@ -13,7 +13,7 @@ export default defineComponent({
   },
 
   mounted() {
-    console.log(this.statStore.getPlayerName("76561198818648238"))
+
   },
 
   data() {

@@ -4,7 +4,7 @@ import axios from "axios";
 const API_KEY: string = import.meta.env.VITE_API_KEY;
 const RUST_APP_ID: string = "252490";
 
-interface Profile {
+export interface Profile {
     steamId: string | null,
     name: string | null,
     dateCreated: string | null,
@@ -57,7 +57,7 @@ export const useStatStore = defineStore('stats', {
                     steamId: player.steamid,
                     name: player.personaname,
                     dateCreated: new Date(player.timecreated * 1000).toDateString(),
-                    avatarUrl: player.avatar,
+                    avatarUrl: player.avatarfull,
                     hours: playerHours
                 }
 
