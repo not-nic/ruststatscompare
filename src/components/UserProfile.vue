@@ -1,16 +1,23 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
-import { Profile } from "../stores/StatStore.ts"
+import {useStatStore} from "../stores/StatStore.ts";
 
 export default defineComponent({
   name: "UserProfile",
 
   props: {
+    index: Number,
     steamId: String,
     name: String,
     dateCreated: String,
     avatarUrl: String,
     hours: Number
+  },
+
+  data() {
+    return {
+      statStore: useStatStore()
+    }
   }
 })
 </script>
@@ -19,7 +26,7 @@ export default defineComponent({
   <div class="profile">
     <div class="head">
       <span>{{name}}'s Profile</span>
-      <a>Close</a>
+      <a @click="statStore.removePlayer(<number>index)">Remove</a>
     </div>
     <div class="body">
       <img :src="avatarUrl" :alt="`${name}'s steam profile picture`">
@@ -35,7 +42,7 @@ export default defineComponent({
           </div>
           <div class="text">
             <span class="key">Hours Played:</span>
-            <span>{{hours.toLocaleString('en-gb')}} Hours</span>
+            <span class="value">{{hours?.toLocaleString('en-gb')}} Hours</span>
           </div>
         </div>
       </div>
@@ -45,27 +52,27 @@ export default defineComponent({
 
 <style scoped>
 .profile {
+  min-width: 500px;
   display: flex;
   flex-direction: column;
-  min-width: 500px;
 }
 
 .head {
   display: flex;
   justify-content: space-between;
-  background-color: #2a2a2a;
   padding: 5px 15px 5px 15px;
   font-family: 'Roboto Condensed', sans-serif;
+  background-color: #2a2a2a;
 }
 
 .body {
   display: flex;
   align-content: center;
-  font-family: 'Roboto Condensed', sans-serif;
-  gap: 15px;
-  background-color: #212121;
-  padding: 10px;
   align-items: center;
+  gap: 15px;
+  padding: 10px;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #212121;
 }
 
 img {
@@ -76,16 +83,16 @@ img {
 
 
 h2 {
-  text-align: left;
   margin: 0;
+  text-align: left;
   font-weight: 700;
 }
 
 .info {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .row {
@@ -113,5 +120,9 @@ h2 {
 
 .key {
   color: #A4A4A4;
+}
+
+.value {
+  font-weight: 700;
 }
 </style>

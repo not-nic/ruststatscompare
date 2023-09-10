@@ -86,6 +86,12 @@ export const useStatStore = defineStore('stats', {
                 console.error(error)
                 return null
             }
+        },
+
+        removePlayer(index: number): void {
+            if (index >= 0 && index < this.userSteamStats.length) {
+                this.userSteamStats.splice(index, 1)
+            }
         }
     }
 })

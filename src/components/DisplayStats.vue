@@ -43,6 +43,7 @@ export default defineComponent({
 <template>
   <div v-for="(userStats, index) in statStore.userSteamStats" :key="index">
     <user-profile
+        :index="index"
         :steam-id="userStats.user.steamId"
         :name="userStats.user.name"
         :date-created="userStats.user.dateCreated"
