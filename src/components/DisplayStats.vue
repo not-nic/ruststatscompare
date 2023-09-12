@@ -2,6 +2,7 @@
 import {defineComponent} from 'vue'
 import {useStatStore} from "../stores/StatStore.ts";
 import UserProfile from "./UserProfile.vue";
+import PvpStats from "./PvpStats.vue";
 
 interface Stat {
   name: string;
@@ -10,7 +11,7 @@ interface Stat {
 
 export default defineComponent({
   name: "DisplayStats",
-  components: {UserProfile},
+  components: {PvpStats, UserProfile},
 
   setup() {
     const statStore = useStatStore();
@@ -26,8 +27,9 @@ export default defineComponent({
 })
 </script>
 
+
 <template>
-  <div v-for="(userStats, index) in statStore.userSteamStats" :key="index">
+  <div class="user" v-for="(userStats, index) in statStore.userSteamStats" :key="index">
     <user-profile
         :index="index"
         :steam-id="userStats.user.steamId"
@@ -37,21 +39,23 @@ export default defineComponent({
         :hours="userStats.user.hours"
     ></user-profile>
     <div class="stats">
-      <div v-for="(stat, statIndex) in userStats.stats" :key="statIndex" :class="{'green-background': isHighestStat(userStats, stat)}">
-        <span>{{ stat.name }}: {{ stat.value }}</span>
-      </div>
+      <pvp-stats
+          :kills="statStore.getStatByKey(statStore.userSteamStats, index, 'kill_player')"
+          :deaths="statStore.getStatByKey(statStore.userSteamStats, index, 'deaths')"
+          :bullets-fired="statStore.getStatByKey(statStore.userSteamStats, index, 'bullet_fired')"
+          :bullets-hit-player="statStore.getStatByKey(statStore.userSteamStats, index, 'bullet_hit_player')"
+          :headshot="statStore.getStatByKey(statStore.userSteamStats, index, 'headshot')"
+      ></pvp-stats>
     </div>
   </div>
 </template>
 
 <style scoped>
-.green-background {
-  color: green;
-}
+.user {
+  max-width: 500px;
 
-.stats {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 </style>
