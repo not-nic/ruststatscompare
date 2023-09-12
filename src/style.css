@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -16,11 +18,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #bc3e2b;
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #e12810;
+  text-decoration: underline;
 }
 
 body {
@@ -47,6 +50,15 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.key {
+  color: #A4A4A4;
+}
+
+.value {
+  font-weight: 700;
+}
+
 button:hover {
   border-color: #646cff;
 }
@@ -60,9 +72,7 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
   text-align: center;
 }
 

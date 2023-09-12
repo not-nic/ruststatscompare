@@ -13,7 +13,7 @@ export default defineComponent({
   },
 
   mounted() {
-    console.log(this.statStore.getPlayerName("76561198818648238"))
+
   },
 
   data() {
@@ -35,9 +35,16 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.container {
+  width: 100%;
+}
+
 .content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 20px;
+  gap: 20px;
 }
 </style>
