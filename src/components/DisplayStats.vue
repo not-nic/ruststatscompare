@@ -15,23 +15,9 @@ export default defineComponent({
   setup() {
     const statStore = useStatStore();
 
-    const isHighestStat = (userStats: any, currentStat: Stat): boolean => {
-      // Find the highest 'currentStat' across all users.
-      const highestValueForStat = Math.max(...statStore.userSteamStats.flatMap(userStats => userStats.stats
-          .filter(stat => stat.name === currentStat.name)
-          .map(stat => stat.value)
-      ));
-
-      return currentStat.value === highestValueForStat;
-    };
     return {
       statStore,
-      isHighestStat,
     };
-  },
-
-  mounted() {
-    console.log(this.statStore.userSteamStats)
   },
 
   methods: {
