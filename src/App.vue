@@ -35,9 +35,16 @@ export default defineComponent({
 </template>
 
 <style scoped>
+.container {
+  width: 100%;
+}
+
 .content {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 20px;
+  gap: 20px;
 }
 </style>

@@ -23,6 +23,7 @@ a {
 }
 a:hover {
   color: #e12810;
+  text-decoration: underline;
 }
 
 body {
@@ -49,6 +50,15 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
+.key {
+  color: #A4A4A4;
+}
+
+.value {
+  font-weight: 700;
+}
+
 button:hover {
   border-color: #646cff;
 }
@@ -62,9 +72,7 @@ button:focus-visible {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
   text-align: center;
 }
 

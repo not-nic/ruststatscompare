@@ -63,6 +63,7 @@ export default defineComponent({
   padding: 5px 15px 5px 15px;
   font-family: 'Roboto Condensed', sans-serif;
   background-color: #2a2a2a;
+  border-radius: 5px 5px 0 0;
 }
 
 .body {
@@ -73,6 +74,7 @@ export default defineComponent({
   padding: 10px;
   font-family: 'Roboto Condensed', sans-serif;
   background-color: #212121;
+  border-radius: 0 0 5px 5px;
 }
 
 img {
@@ -80,7 +82,6 @@ img {
   max-width: 130px;
   border-radius: 5px;
 }
-
 
 h2 {
   margin: 0;
@@ -116,13 +117,5 @@ h2 {
   display: flex;
   flex-direction: row;
   gap: 10px;
-}
-
-.key {
-  color: #A4A4A4;
-}
-
-.value {
-  font-weight: 700;
 }
 </style>
