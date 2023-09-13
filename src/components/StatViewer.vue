@@ -1,71 +1,90 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
+import {computed, defineComponent, ref} from 'vue'
 import {useStatStore} from "../stores/StatStore.ts";
+import Exposure from "./Exposure.vue";
+import Pvp from "./Pvp.vue";
+
+interface Stat {
+  name: string;
+  key: string;
+  lowest: boolean;
+}
 
 export default defineComponent({
   name: "StatViewer",
+  components: {Pvp, Exposure},
 
-  data() {
-    return {
-      store: useStatStore(),
-      showStat: true
-    }
-  },
   props: {
-    title: {
-      type: String,
-      required: true
-    },
-    icon: {
-      type: String,
-      required: true
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: false,
-    },
+    title: String,
+    icon: String,
+    index: Number,
+    type: String,
     statData: {
       type: Array as () => Array<{
         name: string,
+        lowest: boolean,
         key: string,
       }>,
       required: true
     }
   },
 
-  methods: {
-    difference(key: string, value: number) {
-      return this.store.compareStats(key) - value;
-    },
-    highlight(key: string, value: number) {
-      return this.store.compareStats(key) === value;
-    },
-    value(index: number, key: string) {
-      return this.store.getStatByKey(this.store.userSteamStats, this.index, key)
-    },
+  setup(props) {
+    const store = useStatStore();
+    const showStat = ref(false);
 
-    calculateKD(kills: number, deaths: number): string {
-      return (kills / deaths).toFixed(2)
-    },
+    /**
+     * Find the difference between the current stat, and the highest stat found within the store.
+     * @param key - The key of the stat.
+     * @param lowest - Whether the stat is the lowest value (optional).
+     * @param value - The stat value to compare.
+     * @returns The difference between the compared stat and the provided value.
+     */
+    const difference = (key: string, lowest: boolean | undefined, value: number | undefined) =>
+        store.compareStats(key, lowest) - (value || 0);
 
-    calculateHits(bulletHit: number, bulletFired: number): string {
-      return `${(bulletHit / bulletFired * 100).toFixed(2)}%`;
-    },
+    /**
+     * Check if the current user stat is the highest in the steam stat store.
+     * @param key - The key of the stat.
+     * @param lowest - Whether the stat is the lowest value (optional).
+     * @param value - The stat value to compare.
+     * @returns Check if both stats are the same to determine if the current user has the highest stat.
+     */
+    const highlight = (key: string, lowest: boolean, value: number | undefined) =>
+        store.compareStats(key, lowest) === (value || 0);
 
-    calculateHeadshots(headshots: number, bulletsHit: number): string {
-      return `${(headshots / bulletsHit * 100).toFixed(2)}%`;
-    }
+    const value = (key: string) => store.getStatByKey(store.userSteamStats, <number>props.index, key);
+
+    return {
+      store,
+      showStat,
+      difference,
+      highlight,
+      value,
+    };
   },
 
-  computed: {
-    computedValue() {
-      return (key) => {
-        return this.value(this.index, key)
-      }
+  methods: {
+    /**
+     * Format a stat value as a string.
+     * @param key - The key of the stat.
+     * @returns The formatted stat value string (e.g. 999,999,999).
+     */
+    formatStat(key: string): string {
+      return this.value(key).toLocaleString('en-gb')
+    },
+
+    /**
+     * Format the difference between a stat value and the highest stat in the store.
+     * @param key - The key of the stat.
+     * @param lowest - to find the lowest value instead of the highest (optional).
+     * @returns The formatted difference string (e.g., "+123" or "-456").
+     */
+    formatDifference(key: string, lowest?: boolean): string {
+      const diff = this.difference(key, lowest, this.value(key));
+      return diff < 0
+          ? `+${diff.toLocaleString('en-gb').substring(1)}`
+          : `-${diff.toLocaleString('en-gb')}`;
     }
   }
 })
@@ -75,51 +94,35 @@ export default defineComponent({
   <div class="static">
     <div class="head">
       <div class="title">
-        <img class="icon" :src="icon" alt="Farming icon">
-        <span>{{title}}</span>
+        <img class="icon" :src="icon" alt="Stat icon">
+        <span>{{ title }}</span>
       </div>
-      <a v-if="showStat" @click="showStat = false">Collapse</a>
-      <a v-else @click="showStat = true">Expand</a>
+      <a @click="showStat = !showStat">{{ showStat ? 'Collapse' : 'Expand' }}</a>
     </div>
     <div v-if="showStat" class="body">
       <div class="stats">
-        <div class="stat" v-for="stat in statData" :key="stat.name">
+        <div class="stat" v-for="stat in statData" :key="stat.key">
           <div class="group">
-            <span v-if="highlight(stat.key, computedValue(stat.key))" class="key active">{{ stat.name }}:</span>
-            <span v-else class="key">{{ stat.name }}:</span>
-            <span class="value" :class="{ 'green-highlight': highlight(stat.key, computedValue(stat.key)) }">
-              {{ computedValue(stat.key).toLocaleString('en-gb') }}
+            <span :class="{'key active': highlight(stat.key, stat.lowest, value(stat.key))}">{{ stat.name }}:</span>
+            <span class="value" :class="{ 'green-highlight': highlight(stat.key, stat.lowest, value(stat.key)) }">
+              {{ formatStat(stat.key) }}
             </span>
           </div>
           <div v-if="store.userSteamStats.length != 1" class="group">
-            <span class="key" v-if="difference(stat.key, computedValue(stat.key)) != 0">Diff:</span>
-            <span class="value difference" v-if="difference(stat.key, computedValue(stat.key))< 0">
-              +{{ difference(stat.key, computedValue(stat.key)).toLocaleString('en-gb').substring(1) }}
+            <span class="key" v-if="difference(stat.key, stat.lowest, value(stat.key)) != 0 ">Diff:</span>
+            <span class="value difference" v-if="difference(stat.key, stat.lowest, value(stat.key)) < 0 ">
+              {{ formatDifference(stat.key, stat.lowest)}}
             </span>
-            <span class="value difference" v-else-if="difference(stat.key, computedValue(stat.key))!= 0">
-              -{{ difference(stat.key, computedValue(stat.key)).toLocaleString('en-gb') }}
+            <span class="value difference" v-else-if="difference(stat.key, stat.lowest, value(stat.key)) != 0 ">
+              {{ formatDifference(stat.key, stat.lowest )}}
             </span>
           </div>
         </div>
         <div v-if="type == 'pvp'" class="additional">
-          <div class="stat">
-            <span class="key">K/D Ratio:</span>
-            <span class="value">
-              {{ calculateKD(computedValue('kill_player'), computedValue('deaths')) }}
-            </span>
-          </div>
-          <div class="stat">
-            <span class="key">Bullets Hit Percentage:</span>
-            <span class="value">
-              {{ calculateHits(computedValue('bullet_hit_player'), computedValue('bullet_fired'))}}
-            </span>
-          </div>
-          <div class="stat">
-            <span class="key">Headshot Percentage:</span>
-            <span class="value">
-              {{ calculateHeadshots(computedValue('headshot'),computedValue('bullet_hit_player'))}}
-            </span>
-          </div>
+          <pvp :index="index"></pvp>
+        </div>
+        <div v-else-if="type == 'player'">
+          <exposure :index="index"></exposure>
         </div>
       </div>
     </div>
@@ -180,7 +183,7 @@ a {
   display: flex;
   padding: 5px;
   justify-content: space-between;
-  gap: 30px
+  gap: 20px
 }
 
 .stats {
