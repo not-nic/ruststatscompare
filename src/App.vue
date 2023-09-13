@@ -42,8 +42,8 @@ export default defineComponent({
 .content {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
   padding: 20px;
   gap: 20px;
 }
