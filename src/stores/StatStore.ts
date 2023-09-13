@@ -46,6 +46,7 @@ export const useStatStore = defineStore('stats', {
                 this.combineStats(this.userSteamStats, 'harvested_stones', 'harvest.stones', 'stones')
                 this.combineStats(this.userSteamStats, 'harvested_wood', 'harvest.wood', 'wood')
                 this.combineStats(this.userSteamStats, 'harvested_cloth', 'harvest.cloth', 'cloth')
+                this.combineStats(this.userSteamStats, 'bullet_hit_corpse', 'bullet_hit_playercorpse', 'corpses')
 
                 // debug print
                 // console.log(this.userSteamStats)
@@ -152,7 +153,7 @@ export const useStatStore = defineStore('stats', {
          * @param key - The name of the statistic you would like.
          * @returns The value of the specified statistic.
          */
-        getStatByKey(steamStats: any, index: number, key: string): number | undefined {
+        getStatByKey(steamStats: any, index: number, key: string): number {
             // loop through stats array
             for (const stat of steamStats[index].stats) {
                 // check the stat name and key match
@@ -161,7 +162,7 @@ export const useStatStore = defineStore('stats', {
                 }
             }
 
-            return undefined
+            return 0
         },
 
         /**

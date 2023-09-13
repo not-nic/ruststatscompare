@@ -52,7 +52,7 @@ export default defineComponent({
 
 <style scoped>
 .profile {
-  min-width: 500px;
+  min-width: 480px;
   display: flex;
   flex-direction: column;
 }
