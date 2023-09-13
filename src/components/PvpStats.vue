@@ -85,9 +85,10 @@ export default defineComponent({
 </script>
 
 <template>
+  <div class="pvp-stats">
     <div class="head">
       <div class="title">
-        <img src="../assets/p2.svg" alt="p2 icon">
+        <img class="icon" src="../assets/pvp.svg" alt="PvP icon">
         <span>PvP Stats</span>
       </div>
       <a v-if="showStat" @click="showStat = false">Collapse</a>
@@ -101,93 +102,36 @@ export default defineComponent({
             <span v-else class="key">{{ stat.name }}:</span>
             <span class="value" :class="{ 'green-highlight': stat.highlight }">{{ stat.value.toLocaleString('en-gb') }}</span>
           </div>
-          <div class="group">
+          <div v-if="stat.difference != 0" class="group">
             <span class="key" v-if="stat.difference != 0">Diff:</span>
             <span class="value difference" v-if="stat.difference < 0">+{{ stat.difference.toLocaleString('en-gb').substring(1) }}</span>
             <span class="value difference" v-else-if="stat.difference != 0">-{{ stat.difference.toLocaleString('en-gb') }}</span>
           </div>
         </div>
-        <div class="stat">
-          <span class="key">K/D Ratio:</span>
-          <span class="value">{{ calculateKD() }}</span>
-        </div>
-        <div class="stat">
-          <span class="key">Bullets Hit Percentage:</span>
-          <span class="value">{{ calculateHits()}}</span>
-        </div>
-        <div class="stat">
-          <span class="key">Headshot Percentage:</span>
-          <span class="value">{{ calculateHeadshots()}}</span>
+        <div class="calculations">
+          <div class="stat">
+            <span class="key">K/D Ratio:</span>
+            <span class="value">{{ calculateKD() }}</span>
+          </div>
+          <div class="stat">
+            <span class="key">Bullets Hit Percentage:</span>
+            <span class="value">{{ calculateHits()}}</span>
+          </div>
+          <div class="stat">
+            <span class="key">Headshot Percentage:</span>
+            <span class="value">{{ calculateHeadshots()}}</span>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 15px 5px 15px;
-  font-family: 'Roboto Condensed', sans-serif;
-  background-color: #2a2a2a;
-  border-radius: 5px 5px 0 0;
-}
-
-.body {
-  display: flex;
-  align-content: center;
-  align-items: start;
-  gap: 15px;
-  padding: 10px;
-  font-family: 'Roboto Condensed', sans-serif;
-  background-color: #212121;
-  border-radius: 0 0 5px 5px;
-}
-
-.title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-img {
-  max-width: 15px;
-  padding: 5px;
-}
-
-a {
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.green-highlight {
-  color: rgba(134, 205, 43, 0.60);
-}
-
-.active {
-  color: #e2e2e2;
-}
-
-.stats {
+.calculations {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.stat {
-  display: flex;
-  padding: 5px;
-  justify-content: space-between;
-}
-
-.group {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-.difference {
-  color: rgba(205, 43, 43, 0.6);
-}
 </style>

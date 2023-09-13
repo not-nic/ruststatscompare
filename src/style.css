@@ -16,6 +16,76 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px 5px 15px;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #2a2a2a;
+  border-radius: 5px 5px 0 0;
+}
+
+.body {
+  display: flex;
+  align-content: center;
+  align-items: start;
+  gap: 15px;
+  padding: 10px;
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #212121;
+  border-radius: 0 0 5px 5px;
+}
+
+.icon {
+  max-width: 15px;
+  padding: 5px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+a {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.green-highlight {
+  color: rgba(134, 205, 43, 0.60);
+}
+
+.active {
+  color: #e2e2e2;
+}
+
+.difference {
+  color: rgba(205, 43, 43, 0.6);
+}
+
+.stat {
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+  gap: 30px
+}
+
+.stats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.group {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 a {
   font-weight: 500;
   color: #bc3e2b;
