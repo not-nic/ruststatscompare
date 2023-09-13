@@ -16,6 +16,7 @@ export interface Profile {
 // Nick id: 76561198129259594
 // Mik id: 76561198037615241
 // Ste id: 76561198157220342
+// Dave id: 76561198188677214
 
 export const useStatStore = defineStore('stats', {
     state: () => ({
@@ -24,6 +25,11 @@ export const useStatStore = defineStore('stats', {
     }),
 
     actions: {
+        /**
+         * Retrieve and store Steam statistics for a player with the specified Steam ID.
+         * @param steamId - The Steam ID of the player for whom you want to retrieve and store statistics.
+         * Populate the userSteamStats array with user profile and rust stats.
+         */
         async getSteamStats(steamId: string): Promise<void> {
             try {
                 // get player profile info
@@ -34,20 +40,31 @@ export const useStatStore = defineStore('stats', {
                 // Create object for user profile and their stats.
                 const statsObject: { user: Profile; stats: any; } = { user: profile, stats: response.data.playerstats.stats };
                 this.userSteamStats.push(statsObject);
+
+                // once array has been created, combine stats of Stones, Cloth, and wood.
+                this.combineStats(this.userSteamStats, 'harvested_stones', 'harvest.stones', 'stones')
+                this.combineStats(this.userSteamStats, 'harvested_wood', 'harvest.wood', 'wood')
+                this.combineStats(this.userSteamStats, 'harvested_cloth', 'harvest.cloth', 'cloth')
+
+                // debug print
+                // console.log(this.userSteamStats)
+
             } catch (error) {
                 console.error(error)
             }
         },
 
+        /**
+         * Retrieve the number of hours rust hours played for the user.
+         * @param steamId - The steam64Id of the user.
+         * @returns A promise that is stats from the user's account, populating the Profile interface alongside their rust hours.
+         */
         async getPlayerInfo(steamId: string): Promise<Profile> {
             try {
                 const playerHours = await this.getPlayerHours(steamId)
 
                 const response = await axios
                     .get(`api/ISteamUser/GetPlayerSummaries/v0002/?key=${API_KEY}&steamids=${steamId}`)
-
-                // debug print
-                // console.log(response.data.response.players[0].personaname)
 
                 let player = response.data.response.players[0];
 
@@ -66,6 +83,11 @@ export const useStatStore = defineStore('stats', {
             }
         },
 
+        /**
+         * Retrieve the number of hours rust hours played for the user.
+         * @param steamId - The steam64Id of the user.
+         * @returns A promise that is either the hours played, or null if they user does not own rust.
+         */
         async getPlayerHours(steamId: string): Promise<number | null> {
             try {
                 const response = await axios
@@ -134,7 +156,6 @@ export const useStatStore = defineStore('stats', {
             for (const stat of steamStats[index].stats) {
                 // check the stat name and key match
                 if (stat.name === key) {
-                    // return value
                     return stat.value;
                 }
             }
@@ -142,6 +163,12 @@ export const useStatStore = defineStore('stats', {
             return undefined
         },
 
+        /**
+         * Compare stats across all users based on the specified key returning the lowest or highest value.
+         * @param key - The name of the stat to compare.
+         * @param lowest - If true, find the lowest value; otherwise, find the highest value.
+         * @returns The highest or lowest value of the specified stat among users.
+         */
         compareStats(key: string, lowest: boolean = false): number {
             return this.userSteamStats.reduce((value, user) => {
                 const userStat = user.stats.find(stat => stat.name === key);
@@ -165,8 +192,15 @@ export const useStatStore = defineStore('stats', {
                 return value;
             }, lowest ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER); // use MAX & MIN safe integer to ensure stat value is smaller.
         },
+
+        /**
+         * Remove a user.
+         * @param index - The index of the user to remove.
+         */
         removePlayer(index: number): void {
+            // Check if index is within the array
             if (index >= 0 && index < this.userSteamStats.length) {
+                // remove user at the specified index.
                 this.userSteamStats.splice(index, 1)
             }
         },
