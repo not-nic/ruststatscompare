@@ -12,6 +12,7 @@ export interface Profile {
     hours: number | null,
 }
 
+// ------- TEST IDS: ---------
 // Gaz id: 76561198818648238
 // Nick id: 76561198129259594
 // Mik id: 76561198037615241
