@@ -87,6 +87,48 @@ export const useStatStore = defineStore('stats', {
             }
         },
 
+        /**
+         * Combines two specified stats into a new stat for each user in an array of user stats entries.
+         * Used on Stones, Cloth, Wood etc.
+         * @param steamStats - An array of user stats entries.
+         * @param statOne - The name of the first stat to combine.
+         * @param statTwo - The name of the second stat to combine.
+         * @param newStat - The name of the new stat created by combining statOne and statTwo.
+         */
+        combineStats(steamStats: any, statOne: string, statTwo: string, newStat: string) {
+            // Iterate through each user.stats in the array
+            steamStats.forEach((item: any) => {
+                // Find the indices of statOne and statTwo in the stats array of the current user
+                const indexOne = item.stats.findIndex((stat: any) => stat.name === statOne);
+                const indexTwo = item.stats.findIndex((stat: any) => stat.name === statTwo);
+
+                // Check if both statOne and statTwo are found
+                if (indexOne !== -1 && indexTwo !== -1) {
+
+                    // Get the values of statOne and statTwo
+                    const valueOne = item.stats[indexOne].value;
+                    const valueTwo = item.stats[indexTwo].value;
+
+                    // Calculate the combined value
+                    const combinedValue = valueOne + valueTwo;
+
+                    // Create a new stat with new name and combined value
+                    const combinedStat = { name: newStat, value: combinedValue}
+
+                    // Add combinedStat to the object at the index of statOne and remove statTwo from the array
+                    item.stats.splice(indexOne, 1, combinedStat);
+                    item.stats.splice(indexTwo, 1);
+                }
+            });
+        },
+
+        /**
+         * Get a specific statistic value by key for a user at the specified index.
+         * @param steamStats - user stats.
+         * @param index - The index of the player.
+         * @param key - The name of the statistic you would like.
+         * @returns The value of the specified statistic.
+         */
         getStatByKey(steamStats: any, index: number, key: string): number | undefined {
             // loop through stats array
             for (const stat of steamStats[index].stats) {
