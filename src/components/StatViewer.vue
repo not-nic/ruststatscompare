@@ -91,7 +91,7 @@ export default defineComponent({
               {{ computedValue(stat.key).toLocaleString('en-gb') }}
             </span>
           </div>
-          <div class="group">
+          <div v-if="store.userSteamStats.length != 1" class="group">
             <span class="key" v-if="difference(stat.key, computedValue(stat.key)) != 0">Diff:</span>
             <span class="value difference" v-if="difference(stat.key, computedValue(stat.key))< 0">
               +{{ difference(stat.key, computedValue(stat.key)).toLocaleString('en-gb').substring(1) }}
