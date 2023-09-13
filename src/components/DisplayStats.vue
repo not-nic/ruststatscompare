@@ -2,12 +2,11 @@
 import {defineComponent} from 'vue'
 import {useStatStore} from "../stores/StatStore.ts";
 import UserProfile from "./UserProfile.vue";
-import PvpStats from "./PvpStats.vue";
-import FarmingStats from "./FarmingStats.vue";
+import StatViewer from "./StatViewer.vue";
 
 export default defineComponent({
   name: "DisplayStats",
-  components: {FarmingStats,PvpStats, UserProfile},
+  components: {UserProfile, StatViewer},
 
   data() {
     return {
@@ -35,23 +34,45 @@ export default defineComponent({
         :hours="userStats.user.hours"
     ></user-profile>
     <div class="stats">
-      <pvp-stats
-          :kills="statStore.getStatByKey(store, index, 'kill_player')"
-          :deaths="statStore.getStatByKey(store, index, 'deaths')"
-          :bullets-fired="statStore.getStatByKey(store, index, 'bullet_fired')"
-          :bullets-hit-player="statStore.getStatByKey(store, index, 'bullet_hit_player')"
-          :headshot="statStore.getStatByKey(store, index, 'headshot')"
-      ></pvp-stats>
-      <farming-stats
-          :scrap="statStore.getStatByKey(store, index, 'acquired_scrap')"
-          :barrels="statStore.getStatByKey(store, index, 'destroyed_barrels')"
-          :leather="statStore.getStatByKey(store, index, 'harvested_leather')"
-          :lgf="statStore.getStatByKey(store, index, 'acquired_lowgradefuel')"
-          :cloth="statStore.getStatByKey(store, index, 'cloth')"
-          :wood="statStore.getStatByKey(store, index, 'wood')"
-          :metal="statStore.getStatByKey(store, index, 'acquired_metal.ore')"
-          :stones="statStore.getStatByKey(store, index, 'stones')"
-      ></farming-stats>
+      <stat-viewer
+          title="PvP Stats"
+          type="pvp"
+          icon="./src/assets/pvp.svg"
+          :index="index"
+          :stat-data="[
+              {name: 'Kills', key: 'kill_player'},
+              {name: 'Deaths', key: 'deaths'},
+              {name: 'Bullets Fired', key: 'bullet_fired'},
+              {name: 'Bullets Hit', key: 'bullet_hit_player'},
+              {name: 'Headshots', key: 'headshot'},
+          ]"
+      ></stat-viewer>
+      <stat-viewer
+          title="Farming Stats"
+          type="farming"
+          icon="./src/assets/pickaxe.svg"
+          :index="index"
+          :stat-data="[
+              {name: 'Stone Mined', key: 'stones'},
+              {name: 'Metal Mined', key: 'acquired_metal.ore'},
+              {name: 'Wood Harvested', key: 'wood'},
+              {name: 'Cloth Picked', key: 'cloth'},
+              {name: 'Low Grade Fuel Crafted', key: 'acquired_lowgradefuel'},
+              {name: 'Leather Collected', key: 'harvested_leather'},
+              {name: 'Barrels Destroyed', key: 'destroyed_barrels'},
+              {name: 'Scrap Collected', key: 'acquired_scrap'},
+          ]"
+      ></stat-viewer>
+      <stat-viewer
+          title="Building Stats"
+          type="building"
+          icon="../src/assets/building.svg"
+          :index="index"
+          :stat-data="[
+              {name: 'Blocks Placed', key: 'placed_blocks'},
+              {name: 'Blocks Upgraded', key: 'upgraded_blocks',},
+          ]"
+      ></stat-viewer>
     </div>
   </div>
 </template>
