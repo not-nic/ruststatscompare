@@ -37,124 +37,124 @@ export default defineComponent({
       <stat-viewer
           title="PvP Stats"
           type="pvp"
-          icon="./src/assets/pvp.svg"
+          icon="/images/pvp.svg"
           :index="index"
           :stat-data="[
-              {name: 'Kills', key: 'kill_player'},
+              {name: 'Kills', lowest: false, key: 'kill_player'},
               {name: 'Deaths', lowest: true, key: 'deaths'},
-              {name: 'Bullets Fired', key: 'bullet_fired'},
-              {name: 'Rockets Fired', key: 'rocket_fired'},
-              {name: 'Bullets Hit', key: 'bullet_hit_player'},
-              {name: 'Headshots', key: 'headshot'},
-              {name: 'Melee Strikes', key: 'melee_strikes'},
-              {name: 'Weapons Thrown', key: 'melee_thrown'},
+              {name: 'Bullets Fired', lowest: false, key: 'bullet_fired'},
+              {name: 'Rockets Fired', lowest: false, key: 'rocket_fired'},
+              {name: 'Bullets Hit', lowest: false, key: 'bullet_hit_player'},
+              {name: 'Headshots', lowest: false, key: 'headshot'},
+              {name: 'Melee Strikes', lowest: false, key: 'melee_strikes'},
+              {name: 'Weapons Thrown', lowest: false, key: 'melee_thrown'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Farming Stats"
           type="farming"
-          icon="./src/assets/pickaxe.svg"
+          icon="/images/pickaxe.svg"
           :index="index"
           :stat-data="[
-              {name: 'Stone Mined', key: 'stones'},
-              {name: 'Metal Mined', key: 'acquired_metal.ore'},
-              {name: 'Wood Harvested', key: 'wood'},
-              {name: 'Cloth Picked', key: 'cloth'},
-              {name: 'Low Grade Fuel Crafted', key: 'acquired_lowgradefuel'},
-              {name: 'Leather Collected', key: 'harvested_leather'},
-              {name: 'Barrels Destroyed', key: 'destroyed_barrels'},
-              {name: 'Scrap Collected', key: 'acquired_scrap'},
+              {name: 'Stone Mined', lowest: false, key: 'stones'},
+              {name: 'Metal Mined', lowest: false, key: 'acquired_metal.ore'},
+              {name: 'Wood Harvested', lowest: false, key: 'wood'},
+              {name: 'Cloth Picked', lowest: false, key: 'cloth'},
+              {name: 'Low Grade Fuel Crafted', lowest: false, key: 'acquired_lowgradefuel'},
+              {name: 'Leather Collected', lowest: false,  key: 'harvested_leather'},
+              {name: 'Barrels Destroyed', lowest: false,  key: 'destroyed_barrels'},
+              {name: 'Scrap Collected', lowest: false,  key: 'acquired_scrap'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Player Stats"
           type="player"
-          icon="../src/assets/player.svg"
+          icon="/images/player.svg"
           :index="index"
           :stat-data="[
-              {name: 'Calories', key: 'calories_consumed'},
-              {name: 'Water Drunk', key: 'water_consumed'},
-              {name: 'Distance Ridden', key: 'horse_distance_ridden'},
+              {name: 'Calories', lowest: false,  key: 'calories_consumed'},
+              {name: 'Water Drunk', lowest: false,  key: 'water_consumed'},
+              {name: 'Distance Ridden', lowest: false,  key: 'horse_distance_ridden'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Building Stats"
           type="building"
-          icon="../src/assets/building.svg"
+          icon="/images/building.svg"
           :index="index"
           :stat-data="[
-              {name: 'Blocks Placed', key: 'placed_blocks'},
-              {name: 'Blocks Upgraded', key: 'upgraded_blocks'},
+              {name: 'Blocks Placed', lowest: false,  key: 'placed_blocks'},
+              {name: 'Blocks Upgraded', lowest: false,  key: 'upgraded_blocks'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Bullet Breakdown"
           type="bullets"
-          icon="../src/assets/bullet.svg"
+          icon="/images/bullet.svg"
           :index="index"
           :stat-data="[
-              {name: 'Players Hit', key: 'bullet_hit_player'},
-              {name: 'Building Hit', key: 'bullet_hit_building'},
-              {name: 'Signs Hit', key: 'bullet_hit_sign'},
-              {name: 'Bears Hit', key: 'bullet_hit_bear'},
-              {name: 'Boars Hit', key: 'bullet_hit_boar'},
-              {name: 'Wolves Hit', key: 'bullet_hit_wolf'},
-              {name: 'Deer Hit', key: 'bullet_hit_stag'},
-              {name: 'Horses Hit', key: 'bullet_hit_horse'},
-              {name: 'Corpses Hit', key: 'corpses'},
-              {name: 'Other', key: 'bullet_hit_entity'},
+              {name: 'Players Hit', lowest: false,  key: 'bullet_hit_player'},
+              {name: 'Building Hit', lowest: false,  key: 'bullet_hit_building'},
+              {name: 'Signs Hit', lowest: false,  key: 'bullet_hit_sign'},
+              {name: 'Bears Hit', lowest: false,  key: 'bullet_hit_bear'},
+              {name: 'Boars Hit', lowest: false,  key: 'bullet_hit_boar'},
+              {name: 'Wolves Hit', lowest: false,  key: 'bullet_hit_wolf'},
+              {name: 'Deer Hit', lowest: false,  key: 'bullet_hit_stag'},
+              {name: 'Horses Hit', lowest: false,  key: 'bullet_hit_horse'},
+              {name: 'Corpses Hit', lowest: false,  key: 'corpses'},
+              {name: 'Other', lowest: false,  key: 'bullet_hit_entity'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Bow Breakdown"
           type="bullets"
-          icon="../src/assets/bow.svg"
+          icon="/images/bow.svg"
           :index="index"
           :stat-data="[
-              {name: 'Arrows Fired', key: 'arrow_fired'},
-              {name: 'Players Hit', key: 'arrow_hit_player'},
-              {name: 'Building Hit', key: 'arrow_hit_building'},
-              {name: 'Bears Hit', key: 'arrow_hit_bear'},
-              {name: 'Boars Hit', key: 'arrow_hit_boar'},
-              {name: 'Wolves Hit', key: 'arrow_hit_wolf'},
-              {name: 'Deer Hit', key: 'arrow_hit_stag'},
-              {name: 'Horses Hit', key: 'arrow_hit_horse'},
-              {name: 'Chickens Hit', key: 'arrow_hit_chicken'},
-              {name: 'Other', key: 'arrow_hit_entity'},
+              {name: 'Arrows Fired', lowest: false,  key: 'arrow_fired'},
+              {name: 'Players Hit', lowest: false,  key: 'arrow_hit_player'},
+              {name: 'Building Hit', lowest: false,  key: 'arrow_hit_building'},
+              {name: 'Bears Hit', lowest: false,  key: 'arrow_hit_bear'},
+              {name: 'Boars Hit', lowest: false,  key: 'arrow_hit_boar'},
+              {name: 'Wolves Hit', lowest: false,  key: 'arrow_hit_wolf'},
+              {name: 'Deer Hit', lowest: false,  key: 'arrow_hit_stag'},
+              {name: 'Horses Hit', lowest: false,  key: 'arrow_hit_horse'},
+              {name: 'Chickens Hit', lowest: false,  key: 'arrow_hit_chicken'},
+              {name: 'Other', lowest: false,  key: 'arrow_hit_entity'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Shotgun Stats"
           type="shotgun"
-          icon="../src/assets/shotgun.svg"
+          icon="/images/shotgun.svg"
           :index="index"
           :stat-data="[
-              {name: 'Shots Fired', key: 'shotgun_fired'},
-              {name: 'Players Hit', key: 'shotgun_hit_player'},
-              {name: 'Buildings Hit', key: 'shotgun_hit_building'},
-              {name: 'Other', key: 'shotgun_hit_entity'},
+              {name: 'Shots Fired', lowest: false,  key: 'shotgun_fired'},
+              {name: 'Players Hit', lowest: false,  key: 'shotgun_hit_player'},
+              {name: 'Buildings Hit', lowest: false,  key: 'shotgun_hit_building'},
+              {name: 'Other', lowest: false,  key: 'shotgun_hit_entity'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Kills"
           type="kills"
-          icon="../src/assets/kills.svg"
+          icon="/images/kills.svg"
           :index="index"
           :stat-data="[
-              {name: 'Players', key: 'kill_player'},
-              {name: 'Scientists', key: 'kill_scientist'},
-              {name: 'Bears', key: 'kill_bear'},
-              {name: 'Boars', key: 'kill_boar'},
-              {name: 'Wolves', key: 'kill_wolf'},
-              {name: 'Deer', key: 'kill_stag'},
-              {name: 'Horses', key: 'kill_horse'},
-              {name: 'Chickens', key: 'kill_chicken'},
+              {name: 'Players', lowest: false,  key: 'kill_player'},
+              {name: 'Scientists', lowest: false,  key: 'kill_scientist'},
+              {name: 'Bears', lowest: false,  key: 'kill_bear'},
+              {name: 'Boars', lowest: false,  key: 'kill_boar'},
+              {name: 'Wolves', lowest: false,  key: 'kill_wolf'},
+              {name: 'Deer', lowest: false,  key: 'kill_stag'},
+              {name: 'Horses', lowest: false,  key: 'kill_horse'},
+              {name: 'Chickens', lowest: false,  key: 'kill_chicken'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Deaths"
           type="deaths"
-          icon="../src/assets/deaths.svg"
+          icon="/images/deaths.svg"
           :index="index"
           :stat-data="[
               {name: 'Total Deaths', lowest: true, key: 'deaths'},
@@ -168,28 +168,28 @@ export default defineComponent({
       <stat-viewer
           title="Wounds"
           type="wounds"
-          icon="../src/assets/wounds.svg"
+          icon="/images/wounds.svg"
           :index="index"
           :stat-data="[
-              {name: 'Players Wounded', key: 'wounded'},
-              {name: 'Kill Assists', key: 'wounded_assisted'},
-              {name: 'Get ups', key: 'wounded_healed'},
+              {name: 'Players Wounded', lowest: false,  key: 'wounded'},
+              {name: 'Kill Assists', lowest: false,  key: 'wounded_assisted'},
+              {name: 'Get ups', lowest: false,  key: 'wounded_healed'},
           ]"
       ></stat-viewer>
       <stat-viewer
           title="Fun"
           type="game"
-          icon="../src/assets/game.svg"
+          icon="/images/game.svg"
           :index="index"
           :stat-data="[
-              {name: 'Inventory Opened', key: 'INVENTORY_OPENED'},
-              {name: 'Crafting Opened', key: 'CRAFTING_OPENED'},
-              {name: 'Map Opened', key: 'MAP_OPENED'},
-              {name: 'TC Refilled', key: 'CUPBOARD_OPENED'},
-              {name: 'Items Dropped', key: 'item_drop'},
-              {name: 'Waves', key: 'waved_at_players'},
-              {name: 'Blueprints studied', key: 'blueprint_studied'},
-              {name: 'Notes Played', key: 'InstrumentNotesPlayed'},
+              {name: 'Inventory Opened', lowest: false,  key: 'INVENTORY_OPENED'},
+              {name: 'Crafting Opened', lowest: false,  key: 'CRAFTING_OPENED'},
+              {name: 'Map Opened', lowest: false,  key: 'MAP_OPENED'},
+              {name: 'TC Refilled', lowest: false,  key: 'CUPBOARD_OPENED'},
+              {name: 'Items Dropped', lowest: false,  key: 'item_drop'},
+              {name: 'Waves', lowest: false,  key: 'waved_at_players'},
+              {name: 'Blueprints studied', lowest: false,  key: 'blueprint_studied'},
+              {name: 'Notes Played', lowest: false,  key: 'InstrumentNotesPlayed'},
           ]"
       ></stat-viewer>
     </div>
