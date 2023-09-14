@@ -26,10 +26,14 @@ export default defineComponent({
 
 <template>
   <div class="container">
-    <h1>Rust Stats</h1>
-    <get-stats></get-stats>
-    <div class="content">
-      <display-stats></display-stats>
+    <div class="header">
+      <img src="./assets/logo.svg" alt="Rust Logo" draggable="false">
+    </div>
+    <div class="main">
+      <get-stats></get-stats>
+      <div class="content">
+        <display-stats></display-stats>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +41,30 @@ export default defineComponent({
 <style scoped>
 .container {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 10px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+img {
+  max-width: 250px;
 }
 
 .content {
