@@ -1,13 +1,13 @@
 
 # Compare & View Rust Stats
 ![image](https://github.com/not-nic/ruststatscompare/assets/67616855/bc467b6f-ad34-4fe8-99ec-c2b3c1d360d2)
-## Project Description.
-This is a small project that leverages the Steam API to compare users Rust statistics. Whether you’re a solo player or part of a group, you can use this app to keep track of your stats and compare them with other players. [Try it here!](http://rust.notnic.uk/). 
+## Project Description
+This is a small project that leverages the Steam API to compare users Rust statistics. Whether you’re a solo player or part of a group, you can use this app to keep track of your stats and compare them with other players. 
+#### [Try it here!](http://rust.notnic.uk/)
 
 I have used Vue.js and Pinia to create this project. The bulk of the code to retrieve, compare and store stats can be seen within [StatStore.ts](https://github.com/not-nic/ruststatscompare/blob/master/src/stores/StatStore.ts). In addition, [StatViewer.vue](https://github.com/not-nic/ruststatscompare/blob/master/src/components/StatViewer.vue) is the main component for rendering statistics to the page.
 
-There are a few extra features that I would like to implement such as better error handling for profiles that do not own rust or have private steam profiles and alternative views for rust stats as when 8 players are added is quite hard to follow who has the most stats. 
-## How to Use:
+## How to Use
 Use the search bar and insert a URL in one of the following formats:
 - Vanity URL: https://steamcommunity.com/id/notnic4/
 - Profile URL: https://steamcommunity.com/profiles/76561198129259594
@@ -29,7 +29,7 @@ npm install
 After creating an API key, create a file called `.env.development.local`, within this file use `VITE_API_KEY=` with your own API key.
 ```bash
 # .env.development.local
-VITE_API_KEY=YOUR_KEY_HERE
+VITE_STEAM_API_KEY=YOUR_KEY_HERE
 ```
 4. Start a development server by using:
 ```bash
@@ -43,7 +43,7 @@ if you want to build this application for deployment follow these steps:
 1. Create a `.env.production` file for your API key:
 ```bash
 # .env.production
-VITE_API_KEY=YOUR_KEY_HERE
+VITE_STEAM_API_KEY=YOUR_KEY_HERE
 ```
 2. Run `npm preview` to check everything works.
 ```bash
@@ -70,4 +70,3 @@ If you'd like to contribute your own features, follow the steps below:
 4.  Commit your changes: `git commit -am 'Add some feature'`
 5.  Push to the branch: `git push origin my-new-feature`
 6.  Submit a pull request.
-
