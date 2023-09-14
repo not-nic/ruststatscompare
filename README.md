@@ -1,4 +1,6 @@
-![image](https://github.com/not-nic/ruststatscompare/assets/67616855/d1fcc944-0c04-4c67-b2c5-28852e791694)
+![image](https://github.com/not-nic/ruststatscompare/assets/67616855/bc467b6f-ad34-4fe8-99ec-c2b3c1d360d2)
+
+
 
 # Vue 3 + TypeScript + Vite
 
