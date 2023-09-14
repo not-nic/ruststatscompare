@@ -20,14 +20,14 @@ export default defineComponent({
     return {
       statStore: useStatStore(),
     }
-  }
+  },
 })
 </script>
 
 <template>
   <div class="container">
     <div class="header">
-      <img src="./assets/logo.svg" alt="Rust Logo" draggable="false">
+      <img src="/logo.svg" alt="Rust Logo" draggable="false">
     </div>
     <div class="main">
       <get-stats></get-stats>
