@@ -72,7 +72,7 @@ export default defineComponent({
           icon="../src/assets/player.svg"
           :index="index"
           :stat-data="[
-              {name: 'Calories Consumed', key: 'calories_consumed'},
+              {name: 'Calories', key: 'calories_consumed'},
               {name: 'Water Drunk', key: 'water_consumed'},
               {name: 'Distance Ridden', key: 'horse_distance_ridden'},
           ]"
@@ -84,7 +84,7 @@ export default defineComponent({
           :index="index"
           :stat-data="[
               {name: 'Blocks Placed', key: 'placed_blocks'},
-              {name: 'Blocks Upgraded', key: 'upgraded_blocks',},
+              {name: 'Blocks Upgraded', key: 'upgraded_blocks'},
           ]"
       ></stat-viewer>
       <stat-viewer

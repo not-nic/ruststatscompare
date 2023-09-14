@@ -12,7 +12,10 @@ export default defineComponent({
   },
 
   props: {
-    index: Number,
+    index: {
+      type: Number,
+      required: true
+    },
   },
 
   methods: {

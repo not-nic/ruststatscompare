@@ -1,14 +1,8 @@
 <script lang="ts">
-import {computed, defineComponent, ref} from 'vue'
+import {defineComponent, ref} from 'vue'
 import {useStatStore} from "../stores/StatStore.ts";
 import Exposure from "./Exposure.vue";
 import Pvp from "./Pvp.vue";
-
-interface Stat {
-  name: string;
-  key: string;
-  lowest: boolean;
-}
 
 export default defineComponent({
   name: "StatViewer",
@@ -17,7 +11,10 @@ export default defineComponent({
   props: {
     title: String,
     icon: String,
-    index: Number,
+    index: {
+      type: Number,
+      required: true
+    },
     type: String,
     statData: {
       type: Array as () => Array<{
@@ -99,7 +96,7 @@ export default defineComponent({
       </div>
       <a @click="showStat = !showStat">{{ showStat ? 'Collapse' : 'Expand' }}</a>
     </div>
-    <div v-if="showStat" class="body">
+    <div class="body" v-if="showStat">
       <div class="stats">
         <div class="stat" v-for="stat in statData" :key="stat.key">
           <div class="group">
@@ -108,7 +105,7 @@ export default defineComponent({
               {{ formatStat(stat.key) }}
             </span>
           </div>
-          <div v-if="store.userSteamStats.length != 1" class="group">
+          <div class="group" v-if="store.userSteamStats.length != 1">
             <span class="key" v-if="difference(stat.key, stat.lowest, value(stat.key)) != 0 ">Diff:</span>
             <span class="value difference" v-if="difference(stat.key, stat.lowest, value(stat.key)) < 0 ">
               {{ formatDifference(stat.key, stat.lowest)}}
@@ -118,7 +115,7 @@ export default defineComponent({
             </span>
           </div>
         </div>
-        <div v-if="type == 'pvp'" class="additional">
+        <div v-if="type == 'pvp'">
           <pvp :index="index"></pvp>
         </div>
         <div v-else-if="type == 'player'">
@@ -198,11 +195,5 @@ a {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-}
-
-.additional {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
 }
 </style>

@@ -6,12 +6,30 @@ export default defineComponent({
   name: "UserProfile",
 
   props: {
-    index: Number,
-    steamId: String,
-    name: String,
-    dateCreated: String,
-    avatarUrl: String,
-    hours: Number
+    index: {
+      type: Number,
+      required: true
+    },
+    steamId: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    dateCreated: {
+      type: String,
+      required: true
+    },
+    avatarUrl: {
+      type: String,
+      required: true,
+    },
+    hours: {
+      type: Number,
+      required: true,
+    }
   },
 
   data() {

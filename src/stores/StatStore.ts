@@ -5,11 +5,11 @@ const API_KEY: string = import.meta.env.VITE_API_KEY;
 const RUST_APP_ID: string = "252490";
 
 export interface Profile {
-    steamId: string | null,
-    name: string | null,
-    dateCreated: string | null,
-    avatarUrl: string | null,
-    hours: number | null,
+    steamId: string,
+    name: string,
+    dateCreated: string,
+    avatarUrl: string,
+    hours: number,
 }
 
 // ------- TEST IDS: ---------
@@ -28,11 +28,14 @@ export const useStatStore = defineStore('stats', {
     actions: {
         /**
          * Retrieve and store Steam statistics for a player with the specified Steam ID.
-         * @param steamId - The Steam ID of the player for whom you want to retrieve and store statistics.
+         * @param steamInput - An input of either a steam profile link or 64ID to get stats for that player.
          * Populate the userSteamStats array with user profile and rust stats.
          */
-        async getSteamStats(steamId: string): Promise<void> {
+        async getSteamStats(steamInput: string): Promise<void> {
             try {
+
+                const steamId = await this.getSteamId(steamInput)
+
                 // get player profile info
                 const profile: Profile = await this.getPlayerInfo(steamId);
                 const response = await axios
@@ -81,7 +84,14 @@ export const useStatStore = defineStore('stats', {
 
             } catch (error) {
                 console.error(error)
-                return null as Profile
+                // return empty profile.
+                return {
+                    steamId: '',
+                    name: '',
+                    dateCreated: '',
+                    avatarUrl: '',
+                    hours: 0,
+                };
             }
         },
 
@@ -90,7 +100,7 @@ export const useStatStore = defineStore('stats', {
          * @param steamId - The steam64Id of the user.
          * @returns A promise that is either the hours played, or null if they user does not own rust.
          */
-        async getPlayerHours(steamId: string): Promise<number | null> {
+        async getPlayerHours(steamId: string): Promise<number> {
             try {
                 const response = await axios
                     .get(`api/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json`)
@@ -103,12 +113,53 @@ export const useStatStore = defineStore('stats', {
                     }
                 }
 
-                // Return null if the user does not own rust.
-                return null;
+                // Return 0 if the player does not own rust.
+                return 0;
             } catch (error) {
                 console.error(error)
-                return null
+                return 0
             }
+        },
+
+        /**
+         * Get a steam64ID from a steam vanity URL.
+         * @param vanityUrl - user vanity url e.g. id/GawZ
+         * @returns String containing the 64ID.
+         */
+        async getIdFromVanityURL(vanityUrl: string): Promise<string> {
+            try {
+                const response = await axios
+                    .get(`/api/ISteamUser/ResolveVanityURL/v0001/?key=${API_KEY}&vanityurl=${vanityUrl}`)
+                return response.data.response.steamid;
+            } catch (error) {
+                console.error(error)
+                return ""
+            }
+        },
+
+        /**
+         * Gets a Steam ID from various input formats.
+         * @param steamInput - The input string that can be a Steam ID, vanity URL, or profile URL.
+         * @returns A Promise that resolves to a Steam ID as a string.
+         */
+        async getSteamId(steamInput: string): Promise<string> {
+            let steamId: string = steamInput;
+
+            // check if the url contains '/id', if yes extract the vanity url and get the steamId.
+            if (steamInput.includes("id/")) {
+                const vanityUrl = steamInput.split("id/")[1].split('/')[0];
+                steamId = await this.getIdFromVanityURL(vanityUrl);
+
+            // check if the url contains '/profiles', if yes extract the 64 ID and set the steamId.
+            } else if (steamInput.includes("profiles/")) {
+                steamId = steamInput.split("profiles/")[1].split('/')[0];
+
+            // If the number is a numeric string, assume it's a valid 64ID.
+            } else if (!isNaN(parseInt(steamInput, 10))) {
+                steamId = steamInput;
+            }
+
+            return steamId;
         },
 
         /**
@@ -173,7 +224,7 @@ export const useStatStore = defineStore('stats', {
          */
         compareStats(key: string, lowest: boolean = false): number {
             return this.userSteamStats.reduce((value, user) => {
-                const userStat = user.stats.find(stat => stat.name === key);
+                const userStat = user.stats.find((stat: any) => stat.name === key);
 
                 if (userStat) {
                     // check if looking for lowest stat
