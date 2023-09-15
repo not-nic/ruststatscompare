@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const API_KEY: string = import.meta.env.VITE_API_KEY;
+const API_KEY: string = import.meta.env.VITE_STEAM_API_KEY;
 const RUST_APP_ID: string = "252490";
 
 export interface Profile {
