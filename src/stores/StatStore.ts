@@ -243,7 +243,7 @@ export const useStatStore = defineStore('stats', {
 
                 // value is not larger/smaller, so the highest/smallest value remains unchanged.
                 return value;
-            }, lowest ? Number.MAX_SAFE_INTEGER : Number.MIN_SAFE_INTEGER); // use MAX & MIN safe integer to ensure stat value is smaller.
+            }, lowest ? 0 : 0);
         },
 
         /**
